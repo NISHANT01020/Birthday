@@ -135,6 +135,13 @@ const ctx=canvas.getContext("2d")
 canvas.width=window.innerWidth
 canvas.height=window.innerHeight
 
+var password = prompt("Enter the secret password to open this surprise ❤️");
+
+if(password !== "ritu"){
+    alert("Wrong password!");
+    window.location.href = "https://google.com";
+}
+
 /* STARS */
 
 let stars=[]
