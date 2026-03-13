@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Love</title>
+
+<style>
+body{
+margin:0;
+background:black;
+overflow:hidden;
+font-family:Arial;
+}
+
+canvas{
+position:absolute;
+top:0;
+left:0;
+z-index:-1;
+}
+#moreBtn{
+position:absolute;
+bottom:260px;
+left:50%;
+transform:translateX(-50%);
+padding:10px 24px;
+font-size:16px;
+background:linear-gradient(45deg,#ff0066,#ff66cc);
+border:none;
+border-radius:25px;
+color:white;
+cursor:pointer;
+box-shadow:0 0 15px #ff3399;
+transition:0.3s;
+z-index:10;
+}
+#name{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:white;
+font-size:40px;
+font-weight:bold;
+text-shadow:0 0 20px red;
+}
+#heartText{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+text-align:center;
+color:white;
+
+}
+
+.title{
+font-size:28px;
+text-shadow:0 0 10px pink;
+margin-bottom:10px;
+}
+
+#age{
+font-size:22px;
+color:#ff66cc;
+text-shadow:0 0 15px red;
+margin-bottom:10px;
+}
+
+.wish{
+font-size:26px;
+color:#ff3399;
+text-shadow:0 0 15px red;
+}
+
+.name{
+font-size:30px;
+font-weight:bold;
+text-shadow:0 0 20px red;
+}
+
+#moreBtn{
+position:absolute;
+bottom:260px;
+left:50%;
+transform:translateX(-50%);
+padding:10px 24px;
+font-size:16px;
+background:linear-gradient(45deg,#ff0066,#ff66cc);
+border:none;
+border-radius:25px;
+color:white;
+cursor:pointer;
+box-shadow:0 0 15px #ff3399;
+transition:0.3s;
+z-index:10;
+}
+#moreBtn:hover{
+transform:translateX(-50%) scale(1.08);
+box-shadow:0 0 30px #ff3399;
+}
+
+
+</style>
+</head>
+
+<body>
+
+<div id="heartText">
+
+<div class="title">Birthday Beautiful Girl</div>
+
+<div id="age"></div>
+
+<div class="wish">Happy Birthday</div>
+
+<!-- <div class="name">Ritu ❤️</div> -->
+
+</div>
+<button id="moreBtn" onclick="window.location.href='index2.html'">
+Something More ✨
+</button>
+
+<audio autoplay loop>
+<source src="">
+</audio>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+const canvas=document.getElementById("canvas")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+/* STARS */
+
+let stars=[]
+for(let i=0;i<200;i++){
+
+stars.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:Math.random()*2,
+alpha:Math.random()
+})
+
+}
+
+
+let confetti=[]
+
+function spawnConfetti(){
+
+for(let i=0;i<100;i++){
+
+confetti.push({
+x:Math.random()*canvas.width,
+y:-20,
+size:5+Math.random()*5,
+speed:2+Math.random()*3,
+color:`hsl(${Math.random()*360},100%,50%)`
+})
+
+}
+
+}
+
+setInterval(spawnConfetti,4000)
+
+function drawConfetti(){
+
+for(let i=confetti.length-1;i>=0;i--){
+
+let c=confetti[i]
+
+ctx.fillStyle=c.color
+ctx.fillRect(c.x,c.y,c.size,c.size)
+
+c.y+=c.speed
+
+if(c.y>canvas.height){
+confetti.splice(i,1)
+}
+
+}
+
+}
+
+let cakeParticles=[]
+
+function cakeExplosion(){
+
+for(let i=0;i<120;i++){
+
+cakeParticles.push({
+
+x:canvas.width/2,
+y:canvas.height/2,
+vx:(Math.random()-0.5)*8,
+vy:(Math.random()-0.5)*8,
+life:100,
+color:`hsl(${Math.random()*360},100%,60%)`
+
+})
+
+}
+
+}
+
+setTimeout(cakeExplosion,6000)
+
+function drawCake(){
+
+for(let i=cakeParticles.length-1;i>=0;i--){
+
+let p=cakeParticles[i]
+
+ctx.fillStyle=p.color
+ctx.fillRect(p.x,p.y,4,4)
+
+p.x+=p.vx
+p.y+=p.vy
+
+p.life--
+
+if(p.life<=0){
+cakeParticles.splice(i,1)
+}
+
+}
+
+}
+
+let textParticles=[]
+
+function createText(){
+
+let off=document.createElement("canvas")
+let offctx=off.getContext("2d")
+
+off.width=500
+off.height=200
+
+offctx.fillStyle="white"
+offctx.font="80px Arial"
+offctx.fillText("Ritu",120,120)
+
+let data=offctx.getImageData(0,0,off.width,off.height)
+
+for(let y=0;y<data.height;y+=4){
+for(let x=0;x<data.width;x+=4){
+
+let i=(y*data.width+x)*4
+
+if(data.data[i]>150){
+
+textParticles.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+tx:x+canvas.width/2-180,
+ty:y+canvas.height/2+60
+})
+
+}
+
+}
+
+}
+
+}
+
+createText()
+
+function drawTextParticles(){
+
+textParticles.forEach(p=>{
+
+p.x+=(p.tx-p.x)*0.05
+p.y+=(p.ty-p.y)*0.05
+
+ctx.fillStyle="#ff3399"
+ctx.shadowBlur=15
+ctx.shadowColor="#ff0066"
+
+ctx.fillRect(p.x,p.y,2,2)
+
+})
+
+}
+/* HEART FORMULA */
+
+function heart(t){
+
+let x=16*Math.pow(Math.sin(t),3)
+let y=13*Math.cos(t)-5*Math.cos(2*t)-Math.cos(3*t)-Math.cos(4*t)
+
+return{
+x:canvas.width/2 + x*20,
+y:canvas.height/2 - y*20
+}
+
+}
+function updateAge(){
+
+let birth=new Date("2004-03-20T00:00:00")
+
+let now=new Date()
+
+let diff=now-birth
+
+let seconds=Math.floor(diff/1000)
+
+let days=Math.floor(seconds/86400)
+
+seconds%=86400
+
+let hours=Math.floor(seconds/3600)
+
+seconds%=3600
+
+let minutes=Math.floor(seconds/60)
+
+seconds%=60
+
+document.getElementById("age").innerHTML=
+days+" Days "+
+hours+" Hours "+
+minutes+" Minutes "+
+seconds+" Seconds"
+
+}
+
+setInterval(updateAge,1000)
+
+updateAge()
+/* FLOWER HEART */
+
+let petals=[]
+for(let t=0;t<Math.PI*2;t+=0.04){
+petals.push(heart(t))
+}
+
+let progress=0
+let heartFinished=false
+
+/* FLOATING HEARTS */
+
+let hearts=[]
+
+function spawnHeart(){
+
+hearts.push({
+x:Math.random()*canvas.width,
+y:canvas.height+20,
+speed:1+Math.random()*2
+})
+
+}
+
+setInterval(spawnHeart,500)
+
+/* SHOOTING STARS */
+
+let shooting=[]
+
+function spawnShoot(){
+
+shooting.push({
+x:Math.random()*canvas.width,
+y:canvas.height,
+speed:5+Math.random()*3,
+color:`hsl(${Math.random()*360},100%,70%)`
+})
+
+}
+
+setInterval(spawnShoot,400)
+
+/* HEART BEAT */
+
+let beat=0
+
+function draw(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+/* TWINKLING STARS */
+
+stars.forEach(s=>{
+
+s.alpha+=Math.random()*0.05-0.025
+
+if(s.alpha<0) s.alpha=0
+if(s.alpha>1) s.alpha=1
+
+ctx.fillStyle="rgba(255,255,255,"+s.alpha+")"
+
+ctx.beginPath()
+ctx.arc(s.x,s.y,s.size,0,Math.PI*2)
+ctx.fill()
+
+})
+
+/* DRAW HEART ONLY ONCE */
+
+beat+=0.05
+let scale=1+Math.sin(beat)*0.05
+
+ctx.save()
+
+ctx.translate(canvas.width/2,canvas.height/2)
+ctx.scale(scale,scale)
+ctx.translate(-canvas.width/2,-canvas.height/2)
+
+ctx.shadowBlur=20
+ctx.shadowColor="red"
+
+ctx.font="20px serif"
+
+if(!heartFinished){
+
+for(let i=0;i<progress;i++){
+
+let p=petals[i]
+
+ctx.fillStyle="#ff3366"
+ctx.fillText("🌸",p.x,p.y)
+
+}
+
+progress+=0.5
+
+if(progress>=petals.length){
+heartFinished=true
+}
+
+}else{
+
+petals.forEach(p=>{
+ctx.fillText("🌸",p.x,p.y)
+})
+
+}
+
+ctx.restore()
+
+drawConfetti()
+
+drawCake()
+
+drawTextParticles()
+
+
+/* FLOATING HEARTS */
+
+for(let i=hearts.length-1;i>=0;i--){
+
+let h=hearts[i]
+
+ctx.shadowBlur=20
+ctx.shadowColor="red"
+ctx.fillStyle="red"
+ctx.font="20px Arial"
+
+ctx.fillText("I❤️U",h.x,h.y)
+
+h.y-=h.speed
+
+if(h.y<-40){
+hearts.splice(i,1)
+}
+
+}
+
+/* SHOOTING STARS */
+
+for(let i=shooting.length-1;i>=0;i--){
+
+let s=shooting[i]
+
+ctx.strokeStyle=s.color
+ctx.lineWidth=2
+
+ctx.beginPath()
+ctx.moveTo(s.x,s.y)
+ctx.lineTo(s.x,s.y-20)
+ctx.stroke()
+
+s.y-=s.speed
+
+if(s.y<0){
+shooting.splice(i,1)
+}
+
+}
+
+requestAnimationFrame(draw)
+
+}
+
+draw()
+
+
+</script>
+
+</body>
+</html>

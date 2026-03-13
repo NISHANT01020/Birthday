@@ -1,0 +1,727 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Memory Gallery</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+font-family:Arial;
+color:white;
+overflow-x:hidden;
+text-align:center;
+}
+
+/* TITLE */
+
+h1{
+margin-top:30px;
+font-size:40px;
+text-shadow:0 0 20px pink;
+}
+
+/* BUTTONS */
+
+.controls{
+margin:20px;
+}
+
+button{
+padding:10px 25px;
+margin:10px;
+border:none;
+border-radius:20px;
+background:linear-gradient(45deg,#ff0066,#ff66cc);
+color:white;
+cursor:pointer;
+font-size:16px;
+}
+
+/* GRID */
+
+.gallery{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+padding:40px;
+max-width:1000px;
+margin:auto;
+}
+
+.card{
+position:relative;
+overflow:hidden;
+border-radius:15px;
+}
+
+.card img{
+width:100%;
+height:200px;
+object-fit:cover;
+transition:0.5s;
+}
+
+.card:hover img{
+transform:scale(1.1);
+filter:brightness(0.5);
+}
+
+.note{
+position:absolute;
+bottom:0;
+width:100%;
+padding:10px;
+background:rgba(0,0,0,0.6);
+opacity:0;
+transition:0.5s;
+}
+
+.card:hover .note{
+opacity:1;
+}
+
+/* SLIDESHOW */
+
+.slideshow{
+display:none;
+max-width:400px;
+margin:auto;
+}
+
+.slideshow img{
+width:100%;
+border-radius:15px;
+}
+
+/* ROMANTIC MESSAGE */
+
+.message{
+margin-top:40px;
+font-size:24px;
+opacity:0;
+transition:1s;
+}
+
+.showMessage{
+opacity:1;
+}
+
+/* GIFT */
+
+.gift{
+font-size:30px;
+margin-top:30px;
+cursor:pointer;
+}
+
+/* CANVAS */
+
+canvas{
+position:fixed;
+top:0;
+left:0;
+z-index:-1;
+}
+.musicSection{
+margin-top:0px;
+text-align:center;
+}
+
+.player{
+background:#111;
+padding:30px;
+border-radius:20px;
+width:320px;
+margin:auto;
+box-shadow:0 0 20px pink;
+}
+
+.disc{
+font-size:60px;
+margin-bottom:10px;
+}
+
+.controls1 button{
+margin:10px;
+padding:10px;
+height: 50px;
+width: 50px;
+border:none;
+border-radius:50%;
+background:#ff3399;
+color:white;
+cursor:pointer;
+}
+
+.playlist{
+margin-top:30px;
+width:300px;
+margin-left:auto;
+margin-right:auto;
+text-align:left;
+}
+
+.song{
+padding:8px;
+border-bottom:1px solid #333;
+cursor:pointer;
+}
+.puzzleContainer{
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:220px;
+margin-top:30px;
+}
+
+.puzzle{
+width:450px;
+height:450px;
+display:grid;
+gap:4px;
+}
+
+.tile{
+background-image:url("img1.jpg");
+background-size:450px 450px;
+cursor:grab;
+border:2px solid #111;
+}
+
+.solution{
+margin-right:00px;
+margin-top:-60px;
+}
+
+.solution img{
+width:350px;
+border-radius:10px;
+box-shadow:0 0 10px pink;
+}
+
+.empty{
+background:#111;
+border:1px dashed #444;
+}
+
+/* solution preview */
+
+#loveMessage{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:60px;
+color:#ff4da6;
+font-weight:bold;
+text-shadow:0 0 20px pink;
+opacity:0;
+transition:0.6s;
+z-index:10;
+}
+
+.showLove{
+opacity:1;
+}
+
+#confetti{
+position:fixed;
+top:0;
+left:0;
+pointer-events:none;
+}
+.specialMessage{
+max-width:700px;
+margin:40px auto;
+background:rgba(255,255,255,0.08);
+padding:30px;
+border-radius:20px;
+backdrop-filter:blur(10px);
+box-shadow:0 0 20px rgba(255,105,180,0.5);
+animation:fadeIn 2s ease;
+}
+
+.specialMessage h2{
+color:#ff66cc;
+margin-bottom:15px;
+}
+
+.specialMessage p{
+line-height:1.6;
+font-size:18px;
+color:#eee;
+}
+
+.highlight{
+color:#ffd700;
+font-weight:bold;
+margin-top:15px;
+}
+
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+#moreBtn{
+position:absolute;
+/* bottom:260px; */
+left:50%;
+transform:translateX(-50%);
+padding:10px 24px;
+font-size:16px;
+background:linear-gradient(45deg,#ff0066,#ff66cc);
+border:none;
+border-radius:25px;
+color:white;
+cursor:pointer;
+box-shadow:0 0 15px #ff3399;
+transition:0.3s;
+z-index:10;
+}
+#moreBtn:hover{
+transform:translateX(-50%) scale(1.08);
+box-shadow:0 0 30px #ff3399;
+}
+</style>
+</head>
+
+
+<body>
+
+<canvas id="hearts"></canvas>
+
+<h1>📸 Memory Gallery</h1>
+
+<div class="controls">
+<button onclick="showCollage()">Collage</button>
+<button onclick="showSlideshow()">Slideshow</button>
+</div>
+
+<!-- COLLAGE -->
+
+<div class="gallery" id="gallery">
+
+<div class="card">
+<img src="img1.jpg">
+<div class="note">Astetic💖<br>12 Feb 2024</div>
+</div>
+
+<div class="card">
+<img src="img2.jpg">
+<div class="note">Best Propose 🌹<br>17 May 2024</div>
+</div>
+
+<div class="card">
+<img src="img3 - Copy.jpg" >
+<div class="note">Cute Moment 💕<br>10 Apr 2023</div>
+</div>
+
+<div class="card">
+<img src="img4 - Copy.jpg">
+<div class="note">Cute Kiss🎬</div>
+</div>
+
+<div class="card">
+<img src="img5 - Copy.jpg">
+<div class="note">Holi Date ☕</div>
+</div>
+
+<div class="card">
+<img src="img6 - Copy.jpg">
+<div class="note">Forever Memory ❤️</div>
+</div>
+
+</div>
+
+<!-- SLIDESHOW -->
+
+<div class="slideshow" id="slideshow">
+
+<img id="slideImg" src="img1.jpg">
+
+</div>
+
+<!-- GIFT -->
+
+<div class="gift" onclick="openGift()">You are the most beautiful part of my life 💖</div>
+
+<div class="message" id="message">
+You are the most beautiful part of my life 💖
+</div>
+
+<!-- MUSIC PLAYER SECTION -->
+
+<div class="musicSection">
+
+<h2>🎵 Birthday Playlist</h2>
+
+<div class="player">
+
+<div class="disc">💿</div>
+
+<h3 id="songTitle">Happy Birthday Song</h3>
+
+<div class="controls1">
+
+<button onclick="prevSong()">⏮</button>
+<button onclick="playSong()">▶</button>
+<button onclick="nextSong()">⏭</button>
+
+</div>
+
+<input type="range" id="progress" value="0">
+<div class="playlist" id="playlist"></div>
+</div>
+
+</div>
+<h2>🧩 Puzzle</h2>
+
+<div>
+<span>Level</span>
+
+<select id="difficulty" onchange="startGame()">
+<option value="3">3x3</option>
+<option value="4">4x4</option>
+<option value="5">5x5</option>
+</select>
+
+<button onclick="startGame()">Start Game</button>
+
+</div>
+
+
+<div class="puzzleContainer">
+
+<div class="puzzle" id="puzzleBoard"></div>
+
+<div class="solution">
+<h3>Solution</h3>
+<img src="img1.jpg">
+</div>
+
+</div>
+<div class="specialMessage">
+
+<h2>💖 A Little Note For You</h2>
+
+<p>
+Sometimes life gives us many moments,  
+but only a few become memories we never want to forget.  
+You are one of those memories in my life.  
+Every smile of yours makes my day brighter.
+</p>
+
+<p>
+No matter where life takes us,  
+I just want you to know that  
+you are someone very special to me.
+</p>
+
+<p class="highlight">
+You are not just a part of my life...  
+You are the reason my life feels beautiful. ❤️
+</p>
+
+</div>
+<button id="moreBtn" onclick="window.location.href='html.html'">
+Something More ✨
+</button>
+
+<script>
+
+/* TOGGLE VIEWS */
+
+function showSlideshow(){
+document.getElementById("gallery").style.display="none"
+document.getElementById("slideshow").style.display="block"
+}
+
+function showCollage(){
+document.getElementById("gallery").style.display="grid"
+document.getElementById("slideshow").style.display="none"
+}
+
+
+
+// puzzle
+const board = document.getElementById("puzzleBoard")
+
+let size = 3
+let tileSize
+let draggedTile = null
+
+
+function startGame(){
+
+size = parseInt(document.getElementById("difficulty").value)
+
+board.innerHTML=""
+
+tileSize = 450/size
+
+board.style.gridTemplateColumns=`repeat(${size},1fr)`
+
+let positions=[]
+
+for(let i=0;i<size*size;i++){
+positions.push(i)
+}
+
+shuffle(positions)
+
+positions.forEach(n=>{
+
+let tile=document.createElement("div")
+
+tile.className="tile"
+tile.draggable=true
+
+tile.style.width=tileSize+"px"
+tile.style.height=tileSize+"px"
+
+let x=n%size
+let y=Math.floor(n/size)
+
+tile.style.backgroundSize=`${size*tileSize}px ${size*tileSize}px`
+tile.style.backgroundPosition=`-${x*tileSize}px -${y*tileSize}px`
+
+tile.dataset.pos=n
+
+tile.addEventListener("dragstart",()=>{
+draggedTile=tile
+})
+
+tile.addEventListener("dragover",(e)=>{
+e.preventDefault()
+})
+
+tile.addEventListener("drop",()=>{
+
+let temp=tile.style.backgroundPosition
+tile.style.backgroundPosition=draggedTile.style.backgroundPosition
+draggedTile.style.backgroundPosition=temp
+
+checkWin()
+
+})
+
+board.appendChild(tile)
+
+})
+
+}
+
+
+function shuffle(array){
+
+for(let i=array.length-1;i>0;i--){
+
+let j=Math.floor(Math.random()*i)
+
+let temp=array[i]
+array[i]=array[j]
+array[j]=temp
+
+}
+
+}
+
+
+function checkWin(){
+
+let tiles=document.querySelectorAll(".tile")
+
+let correct=true
+
+tiles.forEach(tile=>{
+
+let pos=tile.dataset.pos
+
+let x=pos%size
+let y=Math.floor(pos/size)
+
+let correctPos=`-${x*tileSize}px -${y*tileSize}px`
+
+if(tile.style.backgroundPosition!==correctPos){
+correct=false
+}
+
+})
+
+if(correct){
+
+setTimeout(()=>{
+
+document.getElementById("loveMessage").classList.add("showLove")
+startFireworks()
+
+},300)
+
+}
+
+}
+
+
+startGame()
+
+/* SLIDESHOW */
+
+let images=["img1.jpg","img2.jpg","img3.jpg","img4.jpg","img5.jpg","img6.jpg","img7.jpg"]
+let i=0
+
+setInterval(()=>{
+
+document.getElementById("slideImg").src=images[i]
+i=(i+1)%images.length
+
+},2000)
+
+/* GIFT OPEN */
+
+function openGift(){
+
+document.getElementById("message").classList.add("showMessage")
+
+startFireworks()
+
+}
+
+/* HEART PARTICLES */
+
+const canvas=document.getElementById("hearts")
+const ctx=canvas.getContext("2d")
+
+canvas.width=window.innerWidth
+canvas.height=window.innerHeight
+
+let hearts=[]
+
+for(let i=0;i<100;i++){
+
+hearts.push({
+x:Math.random()*canvas.width,
+y:Math.random()*canvas.height,
+size:10+Math.random()*10,
+speed:1+Math.random()*2
+})
+
+}
+
+function drawHearts(){
+
+ctx.clearRect(0,0,canvas.width,canvas.height)
+
+ctx.fillStyle="pink"
+
+hearts.forEach(h=>{
+
+ctx.font=h.size+"px Arial"
+ctx.fillText("💖",h.x,h.y)
+
+h.y-=h.speed
+
+if(h.y<0){
+h.y=canvas.height
+h.x=Math.random()*canvas.width
+}
+
+})
+
+requestAnimationFrame(drawHearts)
+
+}
+
+drawHearts()
+
+/* FIREWORKS */
+
+function startFireworks(){
+
+for(let j=0;j<200;j++){
+
+setTimeout(()=>{
+
+ctx.fillStyle=`hsl(${Math.random()*360},100%,60%)`
+ctx.beginPath()
+ctx.arc(Math.random()*canvas.width,Math.random()*canvas.height,5,0,Math.PI*2)
+ctx.fill()
+
+},j*20)
+
+}
+
+}
+
+let songs=[
+{title:"Preet Re",src:"song1.mp3"},
+{title:"Sheesha",src:"song2.mp3"},
+{title:"Wat Wat Wat",src:"song3.mp3"}
+]
+
+let index=0
+let audio=new Audio(songs[index].src)
+
+const title=document.getElementById("songTitle")
+const playlist=document.getElementById("playlist")
+
+function loadPlaylist(){
+
+playlist.innerHTML=""
+
+songs.forEach((s,i)=>{
+
+let div=document.createElement("div")
+div.className="song"
+div.innerText=(i+1)+". "+s.title
+
+div.onclick=()=>{
+index=i
+playSong()
+}
+
+playlist.appendChild(div)
+
+})
+
+}
+
+loadPlaylist()
+
+function playSong(){
+
+audio.src=songs[index].src
+title.innerText=songs[index].title
+audio.play()
+
+}
+
+function nextSong(){
+
+index=(index+1)%songs.length
+playSong()
+
+}
+
+function prevSong(){
+
+index=(index-1+songs.length)%songs.length
+playSong()
+
+}
+
+
+</script>
+
+</body>
+</html>
+

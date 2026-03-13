@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Love Memory</title>
+
+    <style>
+        body {
+            margin: 0;
+            background: #020010;
+            overflow: hidden;
+            font-family: Arial;
+            color: white;
+        }
+
+        /* timer */
+
+        #timer {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #989898;
+
+            text-shadow:
+                0 0 10px #ff2d75,
+                0 0 30px #ff2d75,
+                0 0 60px #ff2d75;
+
+            z-index: 5;
+        }
+
+        /* images */
+
+        .photo {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 20px;
+
+            box-shadow:
+                0 0 20px #ff2d75,
+                0 0 40px #ff2d75;
+
+            transition: 3s;
+        }
+
+        /* heart */
+
+        #heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 100px;
+
+            color: #ff2d75;
+
+            text-shadow:
+                0 0 20px #ff2d75,
+                0 0 40px #ff2d75;
+
+            animation: beat 1s infinite;
+
+            opacity: 0;
+            z-index: 6;
+        }
+
+        @keyframes beat {
+
+            0% {
+                transform: translate(-50%, -50%) scale(1)
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.2)
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1)
+            }
+
+        }
+
+        /* letter */
+
+        #letter {
+
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+
+            width: 480px;
+            padding: 40px;
+
+            background: rgba(10, 0, 30, 0.6);
+            backdrop-filter: blur(20px);
+
+            border-radius: 25px;
+
+            border: 2px solid #ff2d75;
+
+            box-shadow:
+                0 0 20px #ff2d75,
+                0 0 60px #ff2d75;
+
+            text-align: center;
+
+            transition: 1s;
+
+            z-index: 10;
+
+        }
+
+        #letter.show {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        /* fireworks */
+
+        /* fireworks particles */
+
+        .particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 1.5s linear forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                opacity: 1
+            }
+
+            100% {
+                transform: translate(var(--x), var(--y)) scale(0);
+                opacity: 0;
+            }
+        }
+
+        /* rocket */
+
+        .rocket {
+            position: absolute;
+            width: 4px;
+            height: 20px;
+            background: white;
+            animation: rocketFly 1s linear forwards;
+        }
+
+        @keyframes rocketFly {
+            0% {
+                transform: translateY(0)
+            }
+
+            100% {
+                transform: translateY(-300px)
+            }
+        }
+
+        /* sparkle rain */
+
+        .sparkle {
+            position: absolute;
+            color: #fff;
+            font-size: 12px;
+            animation: sparkleFall 3s linear forwards;
+        }
+
+        @keyframes sparkleFall {
+            0% {
+                transform: translateY(-50px);
+                opacity: 1
+            }
+
+            100% {
+                transform: translateY(600px);
+                opacity: 0
+            }
+        }
+
+        /* petals */
+
+        .petal {
+            position: absolute;
+            font-size: 18px;
+            animation: petalFall 4s linear forwards;
+        }
+
+        @keyframes petalFall {
+            0% {
+                transform: translateY(-50px) rotate(0deg)
+            }
+
+            100% {
+                transform: translateY(600px) rotate(360deg)
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="timer">10</div>
+
+    <img src="img1.jpg" class="photo">
+    <img src="img2.jpg" class="photo">
+    <img src="img3.jpg" class="photo">
+    <img src="img4.jpg" class="photo">
+    <img src="img5.jpg" class="photo">
+    <img src="img6.jpg" class="photo">
+    <img src="img7.jpg" class="photo">
+    <img src="img2.jpg" class="photo">
+    <img src="img4.jpg" class="photo">
+    <img src="img1.jpg" class="photo">
+
+    <div id="heart">❤️</div>
+
+    <div id="letter">
+
+        <h2>Happyy Birthday Baby  ❤️</h2>
+
+        <p>
+            Happy Birthday Ritu ❤️
+
+            Aaj ka din mere liye bahut special hai kyunki aaj meri life ki sabse special person ka birthday hai. Ritu
+            tum sirf meri girlfriend nahi ho tum meri happiness ho meri strength ho aur meri life ka sabse pyara hissa
+            ho. Jab bhi main tumhare baare me sochta hoon bas ek hi feeling aati hai gratitude. Thank you meri life me
+            aane ke liye aur meri duniya itni beautiful banane ke liye.
+
+            Aaj hume saath me 5 saal ho gaye hain aur sach bolu toh ye 5 saal meri life ke sabse beautiful years rahe
+            hain. Itne saare moments itni saari memories hasi thodi si ladai phir mana lena ye sab milke hamari story ko
+            aur bhi special bana dete hain. Har din tumhare saath ek nayi khushi lekar aata hai. Tumhare saath baat
+            karna tumhari smile dekhna aur tumhari care feel karna ye sab mere liye duniya ki sabse precious cheezein
+            hain.
+
+            Ritu main bas ye chahta hoon ki hum hamesha aise hi saath rahein. Chahe life me kitni bhi problems aaye
+            kitne bhi challenges aaye hum dono ek dusre ka haath kabhi na chhodein. Aaj se nahi balki jab tak saanse
+            chalti rahengi main tumhare saath rehna chahta hoon. Tumhare saath sapne dekhna unhe poora karna aur ek
+            beautiful future banana chahta hoon.
+
+            Tum meri life ka wo part ho jise main kabhi lose nahi karna chahta. Dil se bas ye dua karta hoon ki hamari
+            ye journey life bhar aise hi chalti rahe pyaar trust aur happiness ke saath. <br>
+
+            Aur akhir me tumhare liye kuch alfaz likhe hain ❤️ <br>
+Zindagi ki tej dhoop me sukoon bhari chhaav ho tum<br>
+Meri tanha raaton me chamakta hua ek mahtaab ho tum<br>
+
+Jahan thak kar dil ko milti hai halki si rahat<br>
+Us pyare se lamhe ka khubsurat ehsaas ho tum<br>
+
+Mere dil ke har kone me basa hua ek khwab ho tum<br>
+Mere mann ke uljhe sawalon ka aasan sa jawab ho tum<br>
+
+Kabhi dua ban kar labon par aa jaate ho<br>
+Kabhi meri khamoshi ka sabse pyara alfaaz ho tum<br>
+
+Sach kahu Ritu to meri zindagi ki sabse haseen baat ho tum<br>
+Mere aaj me ho tum aur mere kal ka bhi khwab ho tum ❤️<br>
+
+            Happy Birthday meri jaan 🎂❤️ <br>
+            I love you so much Ritu <br>
+
+        </p>
+
+    </div>
+
+    <audio id="music" src="birthday.mp3"></audio>
+
+    <script>
+
+        const photos = document.querySelectorAll(".photo")
+        const timer = document.getElementById("timer")
+
+        /* random start */
+
+        photos.forEach(p => {
+
+            p.style.left = Math.random() * window.innerWidth + "px"
+            p.style.top = Math.random() * window.innerHeight + "px"
+
+        })
+
+        /* heart positions */
+
+        const heartPos = [
+
+            [50, 20], [65, 10], [80, 20],
+            [90, 40], [80, 60],
+            [65, 75], [50, 85],
+            [35, 75], [20, 60],
+            [10, 40]
+
+        ]
+
+        /* countdown */
+
+        let time = 10
+
+        let countdown = setInterval(() => {
+
+            time--
+
+            timer.innerHTML = time
+
+            if (time == 5) {
+
+                photos.forEach((p, i) => {
+
+                    let x = heartPos[i][0]
+                    let y = heartPos[i][1]
+
+                    p.style.left = `calc(${x}% - 90px)`
+                    p.style.top = `calc(${y}% - 90px)`
+
+                })
+
+                document.getElementById("heart").style.opacity = 1
+
+            }
+
+            if (time <= 0) {
+
+                clearInterval(countdown)
+
+                timer.style.display = "none"
+
+                document.getElementById("letter").classList.add("show")
+
+                document.getElementById("music").play()
+
+                fireworks()
+
+            }
+
+        }, 1000)
+        setTimeout(() => {
+
+            document.getElementById("letter").classList.add("show")
+
+            document.getElementById("music").play()
+
+            skyRocket()
+
+            sparkleRain()
+
+            petalsExplosion()
+
+        }, 10000)
+        /* fireworks */
+        /* HEART SHAPED FIREWORK */
+
+        function heartFirework() {
+
+            let cx = window.innerWidth / 2
+            let cy = window.innerHeight / 2
+
+            for (let t = 0; t < 6.28; t += 0.2) {
+
+                let x = 16 * Math.pow(Math.sin(t), 3)
+                let y = 13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)
+
+                let p = document.createElement("div")
+                p.className = "particle"
+
+                p.style.left = cx + "px"
+                p.style.top = cy + "px"
+
+                p.style.background = "pink"
+
+                p.style.setProperty("--x", x * 12 + "px")
+                p.style.setProperty("--y", -y * 12 + "px")
+
+                document.body.appendChild(p)
+
+                setTimeout(() => p.remove(), 1500)
+
+            }
+
+        }
+
+        /* SKY ROCKET */
+
+        function skyRocket() {
+
+            let rocket = document.createElement("div")
+            rocket.className = "rocket"
+
+            rocket.style.left = Math.random() * window.innerWidth + "px"
+            rocket.style.top = window.innerHeight + "px"
+
+            document.body.appendChild(rocket)
+
+            setTimeout(() => {
+
+                rocket.remove()
+                heartFirework()
+
+            }, 1000)
+
+        }
+
+        /* SPARKLE RAIN */
+
+        function sparkleRain() {
+
+            for (let i = 0; i < 40; i++) {
+
+                let s = document.createElement("div")
+                s.className = "sparkle"
+
+                s.innerHTML = "✨"
+
+                s.style.left = Math.random() * window.innerWidth + "px"
+
+                document.body.appendChild(s)
+
+                setTimeout(() => s.remove(), 3000)
+
+            }
+
+        }
+
+        /* PETALS */
+
+        function petalsExplosion() {
+
+            for (let i = 0; i < 30; i++) {
+
+                let p = document.createElement("div")
+                p.className = "petal"
+
+                p.innerHTML = "🌸"
+
+                p.style.left = Math.random() * window.innerWidth + "px"
+
+                document.body.appendChild(p)
+
+                setTimeout(() => p.remove(), 4000)
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
